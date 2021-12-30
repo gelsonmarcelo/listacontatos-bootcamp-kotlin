@@ -12,7 +12,9 @@ import com.everis.listadecontatos.bases.BaseActivity
 import com.everis.listadecontatos.feature.contato.ContatoActivity
 import com.everis.listadecontatos.feature.listacontatos.adapter.ContatoAdapter
 import com.everis.listadecontatos.feature.listacontatos.model.ContatosVO
+import com.everis.listadecontatos.feature.listacontatos.repository.ListaDeContatosRepository
 import com.everis.listadecontatos.feature.listacontatos.viewmodel.ListaDeContatosViewModel
+import com.everis.listadecontatos.helpers.HelperDB
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
@@ -27,6 +29,12 @@ class ListaDeContatosActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (viewModel == null)
+            viewModel = ListaDeContatosViewModel(
+                ListaDeContatosRepository(
+                    HelperDB(this)
+                )
+            )
         setupToolBar(toolBar, "Lista de contatos", false)
         setupListView()
         setupOnClicks()
