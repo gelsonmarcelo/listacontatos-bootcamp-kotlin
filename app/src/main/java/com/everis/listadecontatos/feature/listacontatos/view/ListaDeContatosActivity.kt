@@ -85,20 +85,10 @@ class ListaDeContatosActivity : BaseActivity() {
                         .setMessage("Não foi possível completar sua solicitação!")
                         .setPositiveButton("OK") { alert, i ->
                             alert.dismiss()
-                        }
+                        }.show()
                 }
             }
         )
-        progress.visibility = View.VISIBLE
-        Thread {
-            Thread.sleep(1500)
-            var listaFiltrada: List<ContatosVO> = mutableListOf()
-            try {
-                listaFiltrada = ContatoApplication.instance.helperDB?.buscarContatos(busca) ?: mutableListOf()
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-        }.start()
     }
 
 }

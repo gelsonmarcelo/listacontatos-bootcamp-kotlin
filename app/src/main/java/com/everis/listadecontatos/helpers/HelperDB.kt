@@ -39,6 +39,35 @@ class HelperDB(
         onCreate(db)
     }
 
+    fun buscarContatos(busca: String, isBuscaPorID: Boolean = false) : List<ContatosVO> {
+        val db = readableDatabase ?: return mutableListOf()
+        var lista = mutableListOf<ContatosVO>()
+        var where: String? = null
+        var args: Array<String> = arrayOf()
+        if(isBuscaPorID){
+            where = "$COLUMNS_ID = ?"
+            args = arrayOf("$busca")
+        }else{
+            where = "$COLUMNS_NOME LIKE ?"
+            args = arrayOf("%$busca%")
+        }
+        var cursor = db.query(TABLE_NAME,null,where,args,null,null,null)
+        if (cursor == null){
+            db.close()
+            return mutableListOf()
+        }
+        while(cursor.moveToNext()){
+            var contato = ContatosVO(
+                cursor.getInt(cursor.getColumnIndex(COLUMNS_ID)),
+                cursor.getString(cursor.getColumnIndex(COLUMNS_NOME)),
+                cursor.getString(cursor.getColumnIndex(COLUMNS_TELEFONE))
+            )
+            lista.add(contato)
+        }
+        db.close()
+        return lista
+    }
+
     fun salvarContato(contato: ContatosVO) {
         val db = writableDatabase ?: return
         var content = ContentValues()

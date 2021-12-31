@@ -10,10 +10,10 @@ import com.everis.listadecontatos.helpers.HelperDB.Companion.COLUMNS_TELEFONE
 import com.everis.listadecontatos.helpers.HelperDB.Companion.TABLE_NAME
 import java.sql.SQLDataException
 
-public class ListaDeContatosRepository(
+open class ListaDeContatosRepository(
     helperDBPar: HelperDB? = null
 ) : BaseRepository(helperDBPar) {
-    fun requestListaDeContatos(
+    open fun requestListaDeContatos(
         busca: String,
         onSucesso: ((List<ContatosVO>) -> Unit),
         onError: ((Exception) -> Unit)
